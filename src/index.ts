@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable prefer-const */
 import { renderSearchFormBlock } from './search-form.js';
 import { renderSearchStubBlock } from './search-results.js';
@@ -10,7 +11,7 @@ window.addEventListener('DOMContentLoaded', () => {
   let depDef = new Date;
   depDef.setDate(depDef.getDate() + 3);
 
-  renderUserBlock(2, 'Wade KApss', '/img/avatar.png');
+  renderUserBlock(5, 'Wade KApss', '/img/avatar.png');
   renderSearchFormBlock(entryDef, depDef);
   renderSearchStubBlock();
   renderToast(

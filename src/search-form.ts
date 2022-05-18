@@ -2,6 +2,27 @@ import { renderBlock } from './lib.js'
 
 export function renderSearchFormBlock (entry: Date, dep: Date) {
   
+  const getDateParse = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+
+    return `${year}-0${month+1}-${day}`
+  }
+
+  const getMaxDate = (date) =>{
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const max = new Date(year, month +2, 0)
+
+    return getDateParse(max)
+  }
+
+  const entryDef = getDateParse(entry);
+  const depDef = getDateParse(dep)
+  const begin = new Date;
+  const minDate = getDateParse(begin);
+  const maxDate = getMaxDate(begin);
 
   renderBlock(
     'search-form-block',
@@ -22,11 +43,11 @@ export function renderSearchFormBlock (entry: Date, dep: Date) {
         <div class="row">
           <div>
             <label for="check-in-date">Дата заезда</label>
-            <input id="check-in-date" type="date" value="2021-05-11" min="${entry}" max="2022-06-30" name="checkin" />
+            <input id="check-in-date" type="date" value="${entryDef}" min="${minDate}" max="${maxDate}" name="checkin" />
           </div>
           <div>
             <label for="check-out-date">Дата выезда</label>
-            <input id="check-out-date" type="date" value="2021-05-13" min="${dep}" max="2022-06-30" name="checkout" />
+            <input id="check-out-date" type="date" value="${depDef}" min="${minDate}" max="${maxDate}" name="checkout" />
           </div>
           <div>
             <label for="max-price">Макс. цена суток</label>

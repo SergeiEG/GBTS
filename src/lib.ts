@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 export function renderBlock(elementId, html) {
   const element = document.getElementById(elementId);
   element.innerHTML = html;
