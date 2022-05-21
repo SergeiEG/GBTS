@@ -14,7 +14,6 @@ export function getUserData() {
     throw new Error('Elements in `overrides` cannot be null or undefined')
   }
   if(userData instanceof Object){
-    console.log(userData)
       return userData;
     }
   

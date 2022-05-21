@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const userData = getUserData();
   const favoritesAmountItem = getFavoritesAmount();
 
-  if(userData instanceof Object && favoritesAmountItem instanceof Number){
+  if(userData instanceof Object){
     const user: User = Object.assign(userData)
     user.favoritesAmount = Number(favoritesAmountItem)
 
