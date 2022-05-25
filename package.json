@@ -4,22 +4,32 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "http-server -c-1 -p 8080",
+        "start": "npm run restore-data &&  nodemon .\\dist\\index.js --watch",
         "build": "tsc",
         "build:dev": "tsc -p tsconfig-dev.json",
+        "build:srv": "tsc -p tsconfig-srv.json",
         "test": "echo \"Error: no test specified\" && exit 1",
         "lint": "eslint src --ext .js --ext .ts",
-        "lint-fix": "eslint src --ext .js --ext .ts --fix"
-
+        "lint-fix": "eslint src --ext .js --ext .ts --fix",
+        "restore-data": "copy .\\data\\db.backup.json .\\data\\db.json"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
+    "dependencies": {
+        "@feathersjs/express": "^4.5.11",
+        "@feathersjs/feathers": "^4.5.11",
+        "@feathersjs/transport-commons": "^4.5.11",
+        "joi": "^17.4.0"
+    },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^5.25.0",
         "@typescript-eslint/parser": "^5.25.0",
         "eslint": "^8.15.0",
         "http-server": "^14.1.0",
-        "typescript": "^4.6.4"
+        "typescript": "^4.6.4",
+        "@types/node": "^15.12.2",
+        "node-fetch": "^2.6.1",
+        "nodemon": "^2.0.7"
     }
 }
