@@ -1,4 +1,5 @@
 export interface Place {
+  availableDates: number[];
   id: number;
   image: string;
   name: string;
@@ -6,4 +7,4 @@ export interface Place {
   remoteness: number;
   bookedDates: number[];
   price: number;
-} 
+}

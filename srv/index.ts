@@ -26,7 +26,7 @@ async function runApp() {
   });
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use("/", express.static("./public"));
+  app.use(express.static("public"));
   app.configure(express.rest());
   app.use(
     "/places",

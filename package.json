@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "npm run restore-data &&  nodemon .\\dist\\index.js --watch",
+        "start": "npm run restore-data && nodemon .\\dist\\index.js --watch",
         "build": "tsc",
         "build:dev": "tsc -p tsconfig-dev.json",
         "build:srv": "tsc -p tsconfig-srv.json",
