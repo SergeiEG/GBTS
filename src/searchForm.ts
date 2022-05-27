@@ -48,9 +48,17 @@ export function book(placeId, data) {
       const place = JSON.parse(response);
       console.log(place);
       const msg = `${place.name} забронирован.`;
-      renderToast({
-        text: msg,
-        type: "book",
-      });
+      renderToast(
+        {
+          text: msg,
+          type: "book",
+        },
+        {
+          name: "Ok",
+          handler: () => {
+            console.log("Уведомление закрыто");
+          },
+        }
+      );
     });
 }

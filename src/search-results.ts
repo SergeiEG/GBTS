@@ -3,6 +3,7 @@ import { FavoritesItem, toggleFavoriteItem } from "./favoriteItem.js";
 import { getFavoritesAmount } from "./userData.js";
 import { getUserData } from "./search-form.js";
 import { book } from "./searchForm.js";
+import { renderToast } from "./lib.js";
 
 export function renderSearchStubBlock() {
   renderBlock(
@@ -84,6 +85,23 @@ export function renderSearchResultsBlock(result) {
     `
   );
 
+  let timer = true;
+  const dalay = 300000;
+  setTimeout(() => {
+    renderToast(
+      {
+        text: "5 мин прошло, обнови поиск",
+        type: "success",
+      },
+      {
+        name: "Понял",
+        handler: () => {
+          console.log("Уведомление закрыто");
+        },
+      }
+    );
+    timer = false;
+  }, dalay);
   const liList = <HTMLElement>document.querySelector(".results-list");
   result.forEach((el) => {
     liList.insertAdjacentHTML("beforeend", renderPlacesListBlock(el));
@@ -102,7 +120,9 @@ export function renderSearchResultsBlock(result) {
       toggleFavoriteItem(favoriteItem, element);
     } else if (element.tagName !== "BUTTON") return;
     else {
-      book(element.dataset.id, getUserData());
+      if (timer) {
+        book(element.dataset.id, getUserData());
+      }
     }
   });
 }
