@@ -1,5 +1,3 @@
-import { SearchFormData } from "./searchForm.js";
-
 const ONE_DAY = 1;
 const THREE_DAY = 3;
 const ONE_MONTH = 1;
