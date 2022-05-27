@@ -1,4 +1,5 @@
 import { renderSearchResultsBlock } from "./search-results.js";
+import { renderToast } from "./lib.js";
 
 export interface SearchFormData {
   arrivalDate: Date;
@@ -31,4 +32,25 @@ export async function searchResult(data) {
   }
 
   return responseToJson(fetch(url));
+}
+
+export function book(placeId, data) {
+  fetch(
+    `http://localhost:3030/places/${placeId}?` +
+      `checkInDate=${dateToUnixStamp(data.arrivalDate)}&` +
+      `checkOutDate=${dateToUnixStamp(data.departureDate)}&`,
+    { method: "PATCH" }
+  )
+    .then((response) => {
+      return response.text();
+    })
+    .then((response) => {
+      const place = JSON.parse(response);
+      console.log(place);
+      const msg = `${place.name} забронирован.`;
+      renderToast({
+        text: msg,
+        type: "book",
+      });
+    });
 }

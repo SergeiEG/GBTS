@@ -43,25 +43,29 @@ export function renderSearchFormBlock(entry: string, dep: string) {
   const btn = <HTMLElement>document.getElementById("search-btn");
   btn.onclick = (event) => {
     event.preventDefault();
-    const ArrivalDateString = (<HTMLInputElement>(
-      document.getElementById("check-in-date")
-    )).value;
-    const DepartureDateString = (<HTMLInputElement>(
-      document.getElementById("check-out-date")
-    )).value;
-    const maxPriseString = (<HTMLInputElement>(
-      document.getElementById("max-price")
-    )).value;
-
-    const userArrivalDate: Date = new Date(ArrivalDateString);
-    const userDepartureDate: Date = new Date(DepartureDateString);
-    const userMaxPrise: number = +maxPriseString;
-
-    const userSearchForm: SearchFormData = {
-      arrivalDate: userArrivalDate,
-      departureDate: userDepartureDate,
-      maxPrise: userMaxPrise,
-    };
-    searchResult(userSearchForm);
+    searchResult(getUserData());
   };
+}
+
+export function getUserData() {
+  const ArrivalDateString = (<HTMLInputElement>(
+    document.getElementById("check-in-date")
+  )).value;
+  const DepartureDateString = (<HTMLInputElement>(
+    document.getElementById("check-out-date")
+  )).value;
+  const maxPriseString = (<HTMLInputElement>(
+    document.getElementById("max-price")
+  )).value;
+
+  const userArrivalDate: Date = new Date(ArrivalDateString);
+  const userDepartureDate: Date = new Date(DepartureDateString);
+  const userMaxPrise: number = +maxPriseString;
+
+  const userSearchForm: SearchFormData = {
+    arrivalDate: userArrivalDate,
+    departureDate: userDepartureDate,
+    maxPrise: userMaxPrise,
+  };
+  return userSearchForm;
 }

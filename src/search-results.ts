@@ -1,6 +1,8 @@
 import { renderBlock } from "./lib.js";
 import { FavoritesItem, toggleFavoriteItem } from "./favoriteItem.js";
 import { getFavoritesAmount } from "./userData.js";
+import { getUserData } from "./search-form.js";
+import { book } from "./searchForm.js";
 
 export function renderSearchStubBlock() {
   renderBlock(
@@ -53,7 +55,7 @@ function renderPlacesListBlock(el) {
         <div class="result-info--descr">${el.description}</div>
         <div class="result-info--footer">
           <div>
-            <button>Забронировать</button>
+            <button data-id ='${el.id}'>Забронировать</button>
           </div>
         </div>
       </div>
@@ -90,8 +92,7 @@ export function renderSearchResultsBlock(result) {
   const resultsList = <HTMLElement>document.querySelector(".results-list");
   resultsList.addEventListener("click", (event) => {
     const element = event.target as HTMLElement;
-    if (!element.classList.contains("favorites")) return;
-    else {
+    if (element.classList.contains("favorites")) {
       const item = result.find((el) => el.id == element.dataset.id);
       const favoriteItem: FavoritesItem = {
         id: item.id,
@@ -99,6 +100,9 @@ export function renderSearchResultsBlock(result) {
         imgItem: item.image,
       };
       toggleFavoriteItem(favoriteItem, element);
+    } else if (element.tagName !== "BUTTON") return;
+    else {
+      book(element.dataset.id, getUserData());
     }
   });
 }
