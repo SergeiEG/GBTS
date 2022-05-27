@@ -1,4 +1,6 @@
 import { renderBlock } from "./lib.js";
+import { FavoritesItem, toggleFavoriteItem } from "./favoriteItem.js";
+import { getFavoritesAmount } from "./userData.js";
 
 export function renderSearchStubBlock() {
   renderBlock(
@@ -25,10 +27,19 @@ export function renderEmptyOrErrorSearchBlock(reasonMessage) {
 }
 
 function renderPlacesListBlock(el) {
+  let items = [];
+  if (getFavoritesAmount() !== 0) {
+    items = JSON.parse(localStorage.getItem("favoritesAmount"));
+  }
+  const findedItem = items.find((item) => item.id === el.id);
+  const hasFavoriteItem = findedItem == undefined ? false : true;
+
   return `<li class="result">
     <div class="result-container">
       <div class="result-img-container">
-        <div class="favorites active"></div>
+        <div data-id ='${el.id}' class="favorites${
+    hasFavoriteItem ? " active" : ""
+  }"></div>
         <img class="result-img" src="${el.image}" alt="">
       </div>	
       <div class="result-info">
@@ -36,7 +47,9 @@ function renderPlacesListBlock(el) {
           <p>${el.name}</p>
           <p class="price">${el.price}&#8381;</p>
         </div>
-        <div class="result-info--map"><i class="map-icon"></i> ${el.remoteness}км от вас</div>
+        <div class="result-info--map"><i class="map-icon"></i> ${
+          el.remoteness
+        }км от вас</div>
         <div class="result-info--descr">${el.description}</div>
         <div class="result-info--footer">
           <div>
@@ -49,7 +62,6 @@ function renderPlacesListBlock(el) {
 }
 
 export function renderSearchResultsBlock(result) {
-  console.log(result);
   renderBlock(
     "search-results-block",
     `
@@ -73,5 +85,20 @@ export function renderSearchResultsBlock(result) {
   const liList = <HTMLElement>document.querySelector(".results-list");
   result.forEach((el) => {
     liList.insertAdjacentHTML("beforeend", renderPlacesListBlock(el));
+  });
+
+  const resultsList = <HTMLElement>document.querySelector(".results-list");
+  resultsList.addEventListener("click", (event) => {
+    const element = event.target as HTMLElement;
+    if (!element.classList.contains("favorites")) return;
+    else {
+      const item = result.find((el) => el.id == element.dataset.id);
+      const favoriteItem: FavoritesItem = {
+        id: item.id,
+        name: item.name,
+        imgItem: item.image,
+      };
+      toggleFavoriteItem(favoriteItem, element);
+    }
   });
 }

@@ -1,3 +1,5 @@
+import { renderUserBlock } from "./user.js";
+
 export interface User {
   username: string;
   avatarUrl: string;
@@ -25,13 +27,25 @@ export function getFavoritesAmount() {
     localStorage.getItem("favoritesAmount")
   );
   if (FavoritesAmount === null) {
-    throw new Error("Elements in `overrides` cannot be null or undefined");
+    return 0;
   }
   if (FavoritesAmount === undefined) {
-    throw new Error("Elements in `overrides` cannot be null or undefined");
+    return 0;
   }
-  if (FavoritesAmount === Number) {
-    return FavoritesAmount;
+  if (FavoritesAmount instanceof Array) {
+    return FavoritesAmount.length;
   }
-  return FavoritesAmount.toString();
+  return 0;
+}
+
+export function userBlock() {
+  const userData = getUserData();
+  const favoritesAmountItem = getFavoritesAmount();
+
+  if (userData instanceof Object) {
+    const user: User = Object.assign(userData);
+    user.favoritesAmount = Number(favoritesAmountItem);
+
+    renderUserBlock(user.username, user.avatarUrl, user.favoritesAmount);
+  }
 }

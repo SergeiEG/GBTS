@@ -1,8 +1,13 @@
-import { renderBlock } from "./lib.js"
+import { renderBlock } from "./lib.js";
 
-export function renderUserBlock (login: string, avatar: string, favoriteItemsAmount?: number) {
-  const favoritesCaption = favoriteItemsAmount < 1 ? "ничего нет": favoriteItemsAmount 
-  const hasFavoriteItems = favoriteItemsAmount > 1 ? true : false
+export function renderUserBlock(
+  login: string,
+  avatar: string,
+  favoriteItemsAmount?: number
+) {
+  const favoritesCaption =
+    favoriteItemsAmount == 0 ? "ничего нет" : favoriteItemsAmount;
+  const hasFavoriteItems = favoriteItemsAmount > 0 ? true : false;
 
   renderBlock(
     "user-block",
@@ -12,10 +17,12 @@ export function renderUserBlock (login: string, avatar: string, favoriteItemsAmo
       <div class="info">
           <p class="name">${login}</p>
           <p class="fav">
-            <i class="heart-icon${hasFavoriteItems ? " active" : ""}"></i>${favoritesCaption} 
+            <i class="heart-icon${
+              hasFavoriteItems ? " active" : ""
+            }"></i>${favoritesCaption} 
           </p>
       </div>
     </div>
     `
-  )
+  );
 }
