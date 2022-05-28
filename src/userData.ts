@@ -15,25 +15,28 @@ export function getUserData() {
   if (userData === undefined) {
     throw new Error("Elements in `overrides` cannot be null or undefined");
   }
-  if (userData instanceof Object) {
-    return userData;
+
+  if (typeof userData === "object") {
+    if ("username" in userData && "avatarUrl" in userData) {
+      return userData;
+    }
   }
 
   return userData.toString();
 }
 
 export function getFavoritesAmount() {
-  const FavoritesAmount: unknown = JSON.parse(
+  const favoritesAmount: unknown = JSON.parse(
     localStorage.getItem("favoritesAmount")
   );
-  if (FavoritesAmount === null) {
+  if (favoritesAmount === null) {
     return 0;
   }
-  if (FavoritesAmount === undefined) {
+  if (favoritesAmount === undefined) {
     return 0;
   }
-  if (FavoritesAmount instanceof Array) {
-    return FavoritesAmount.length;
+  if (favoritesAmount instanceof Array) {
+    return favoritesAmount.length;
   }
   return 0;
 }
