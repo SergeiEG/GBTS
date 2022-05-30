@@ -4,7 +4,6 @@ import { getFavoritesAmount } from "./userData.js";
 import { getUserData } from "./search-form.js";
 import { book } from "./searchForm.js";
 import { renderToast } from "./lib.js";
-import { Database } from "./flat-rent-sdk.js";
 
 export function renderSearchStubBlock() {
   renderBlock(
