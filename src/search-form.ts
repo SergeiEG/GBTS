@@ -32,6 +32,10 @@ export function renderSearchFormBlock(entry: string, dep: string) {
             <label for="max-price">Макс. цена суток</label>
             <input id="max-price" type="text" value="" name="price" class="max-price" />
           </div>
+          <div> 
+            <label for="check">SDK</label>
+            <input id="check" type="checkbox" />
+          </div>
           <div>
             <div><button id="search-btn">Найти</button></div>
           </div>
@@ -43,7 +47,8 @@ export function renderSearchFormBlock(entry: string, dep: string) {
   const btn = <HTMLElement>document.getElementById("search-btn");
   btn.onclick = (event) => {
     event.preventDefault();
-    searchResult(getUserData());
+    const check = (<HTMLInputElement>document.getElementById("check")).checked;
+    searchResult(getUserData(), check);
   };
 }
 
@@ -57,12 +62,14 @@ export function getUserData() {
   const maxPriseString = (<HTMLInputElement>(
     document.getElementById("max-price")
   )).value;
+  const city = (<HTMLInputElement>document.getElementById("city")).value;
 
   const userArrivalDate: Date = new Date(ArrivalDateString);
   const userDepartureDate: Date = new Date(DepartureDateString);
   const userMaxPrise: number = +maxPriseString;
 
   const userSearchForm: SearchFormData = {
+    city: city,
     arrivalDate: userArrivalDate,
     departureDate: userDepartureDate,
     maxPrise: userMaxPrise,
