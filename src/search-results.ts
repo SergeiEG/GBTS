@@ -45,7 +45,7 @@ function renderPlacesListBlock(el, checked) {
       title: el.title,
       remoteness: "N/A",
       details: el.details,
-      price: el.price,
+      price: el.totalPrice,
     };
   } else {
     item = {
@@ -57,6 +57,7 @@ function renderPlacesListBlock(el, checked) {
       price: el.price,
     };
   }
+  console.log(item);
   let items = [];
   if (getFavoritesAmount() !== 0) {
     items = JSON.parse(localStorage.getItem("favoritesAmount"));

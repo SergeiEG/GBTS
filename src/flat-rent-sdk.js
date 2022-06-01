@@ -46,7 +46,7 @@ export function addDays(date, days) {
     return date
 }
 
-export const backendPort = 3040
+export const backendPort = 3030
 export const localStorageKey = "flat-rent-db"
 
 export class FlatRentSdk {
@@ -105,7 +105,6 @@ export class FlatRentSdk {
                         return flat.price <= parameters.priceLimit
                     })
                 }
-        
                 const dateRange = this._generateDateRange(parameters.checkInDate, parameters.checkOutDate)
                 flats = flats.filter((flat) => {
                     return this._areAllDatesAvailable(flat, dateRange)
@@ -113,8 +112,7 @@ export class FlatRentSdk {
         
                 flats = flats.map((flat) => {
                    return this._formatFlatObject(flat, dateRange.length - 1)
-                })
-
+                })              
                 resolve(flats)
             } catch (error) {
                 reject(error)

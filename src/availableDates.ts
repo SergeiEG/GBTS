@@ -24,7 +24,7 @@ const getMaxDate = (date) => {
 const getMinDate = (date, plusDay) => {
   const year = date.getFullYear();
   const month = (date.getMonth() + ONE_MONTH).toString().padStart(2, "0");
-  const day = date.getDate() + plusDay;
+  const day = (date.getDate() + plusDay).toString().padStart(2, "0");
 
   return `${year}-${month}-${day}`;
 };
