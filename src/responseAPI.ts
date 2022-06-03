@@ -9,7 +9,7 @@ export interface PlaceApi {
 }
 
 export interface BookData {
-  id: string | number;
+  id: string;
   arrivalDate: Date;
   departureDate: Date;
 }

@@ -29,7 +29,7 @@ export class SdkProvider {
 
   public static book(data: BookData) {
     SdkProvider.sdk
-      .book(String(data.id), data.arrivalDate, data.departureDate)
+      .book(data.id, data.arrivalDate, data.departureDate)
       .then((result) => {
         console.log("book flat", result);
         const msg = "Номер забронирован.";
