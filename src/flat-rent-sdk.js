@@ -51,7 +51,7 @@ export const localStorageKey = "flat-rent-db"
 
 export class FlatRentSdk {
     constructor() {
-        if (this._readDatabase() !== null) {
+        if (this._readDatabase() == null) {
             this._writeDatabase(database)
         }
 
@@ -105,6 +105,7 @@ export class FlatRentSdk {
                         return flat.price <= parameters.priceLimit
                     })
                 }
+        
                 const dateRange = this._generateDateRange(parameters.checkInDate, parameters.checkOutDate)
                 flats = flats.filter((flat) => {
                     return this._areAllDatesAvailable(flat, dateRange)
@@ -112,7 +113,8 @@ export class FlatRentSdk {
         
                 flats = flats.map((flat) => {
                    return this._formatFlatObject(flat, dateRange.length - 1)
-                })              
+                })
+
                 resolve(flats)
             } catch (error) {
                 reject(error)

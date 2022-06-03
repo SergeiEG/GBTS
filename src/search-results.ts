@@ -29,35 +29,7 @@ export function renderEmptyOrErrorSearchBlock(reasonMessage) {
   );
 }
 
-function renderPlacesListBlock(el, checked) {
-  let item = {
-    id: null,
-    img: "",
-    title: "",
-    remoteness: null,
-    details: "",
-    price: 0,
-  };
-  if (checked) {
-    item = {
-      id: el.id,
-      img: el.photos[0],
-      title: el.title,
-      remoteness: "N/A",
-      details: el.details,
-      price: el.totalPrice,
-    };
-  } else {
-    item = {
-      id: el.id,
-      img: el.image,
-      title: el.name,
-      remoteness: el.remoteness,
-      details: el.description,
-      price: el.price,
-    };
-  }
-  console.log(item);
+function renderPlacesListBlock(el) {
   let items = [];
   if (getFavoritesAmount() !== 0) {
     items = JSON.parse(localStorage.getItem("favoritesAmount"));
@@ -68,23 +40,28 @@ function renderPlacesListBlock(el, checked) {
   return `<li class="result">
     <div class="result-container">
       <div class="result-img-container">
-        <div data-id ='${item.id}' class="favorites${
+        <div data-id ='${el.id}' class="favorites${
     hasFavoriteItem ? " active" : ""
   }"></div>
-        <img class="result-img" src="${item.img}" alt="">
+        <img class="result-img" src="${el.photo}" alt="">
       </div>	
       <div class="result-info">
         <div class="result-info--header">
-          <p>${item.title}</p>
-          <p class="price">${item.price}&#8381;</p>
+          <p>${el.title}</p>
+          <div>
+            <p class="price">Цена за ночь${el.priceForOneDay}&#8381;</p>
+            <p class="price">Полная стоимость${el.totalPrice}&#8381;</p>
+          </div>
         </div>
         <div class="result-info--map"><i class="map-icon"></i> ${
-          item.remoteness
+          el.remoteness
         }км от вас</div>
-        <div class="result-info--descr">${item.details}</div>
+        <div class="result-info--descr">${el.details}</div>
         <div class="result-info--footer">
           <div>
-            <button data-id ='${item.id}'>Забронировать</button>
+            <button data-provider ='${el.provider}' data-id ='${
+    el.originalId
+  }'>Забронировать</button>
           </div>
         </div>
       </div>
@@ -92,7 +69,7 @@ function renderPlacesListBlock(el, checked) {
   </li>`;
 }
 
-export function renderSearchResultsBlock(result, checked: boolean) {
+export function renderSearchResultsBlock(result) {
   renderBlock(
     "search-results-block",
     `
@@ -112,7 +89,6 @@ export function renderSearchResultsBlock(result, checked: boolean) {
     </ul>
     `
   );
-
   let timer = true;
   const dalay = 300000;
   setTimeout(() => {
@@ -124,7 +100,7 @@ export function renderSearchResultsBlock(result, checked: boolean) {
       {
         name: "Понял",
         handler: () => {
-          console.log("Уведомление закрыто");
+          renderSearchStubBlock();
         },
       }
     );
@@ -132,7 +108,7 @@ export function renderSearchResultsBlock(result, checked: boolean) {
   }, dalay);
   const liList = <HTMLElement>document.querySelector(".results-list");
   result.forEach((el) => {
-    liList.insertAdjacentHTML("beforeend", renderPlacesListBlock(el, checked));
+    liList.insertAdjacentHTML("beforeend", renderPlacesListBlock(el));
   });
 
   const resultsList = <HTMLElement>document.querySelector(".results-list");
@@ -149,7 +125,7 @@ export function renderSearchResultsBlock(result, checked: boolean) {
     } else if (element.tagName !== "BUTTON") return;
     else {
       if (timer) {
-        book(element.dataset.id, getUserData(), checked);
+        book(element.dataset.id, element.dataset.provider, getUserData());
       }
     }
   });

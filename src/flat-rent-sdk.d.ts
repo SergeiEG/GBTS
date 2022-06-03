@@ -11,7 +11,7 @@ export interface Database {
   photos: string[];
   coordinates: number[];
   bookedDates: any[];
-  price: number;
+  totalPrice: number;
 }
 
 declare class FlatRentSdk {

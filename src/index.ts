@@ -8,10 +8,13 @@ import { renderSearchFormBlock } from "./search-form.js";
 import { renderSearchStubBlock } from "./search-results.js";
 
 window.addEventListener("DOMContentLoaded", () => {
-  localStorage.user = JSON.stringify({
-    username: "Ward",
-    avatarUrl: "/img/avatar.png",
-  });
+  window.localStorage.setItem(
+    "user",
+    JSON.stringify({
+      username: "Ward",
+      avatarUrl: "/img/avatar.png",
+    })
+  );
 
   userBlock();
   renderSearchFormBlock(entryMin, depMin);
