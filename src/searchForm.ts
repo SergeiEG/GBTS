@@ -14,7 +14,6 @@ export async function searchResult(data: SearchFormData) {
   Promise.all([ApiProvider.find(data), SdkProvider.find(data)]).then(
     (results) => {
       const allResults: Place[] = [].concat(results[0], results[1]);
-      console.log(allResults);
       renderSearchResultsBlock(allResults);
     }
   );
