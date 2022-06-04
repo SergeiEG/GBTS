@@ -16,7 +16,6 @@ function sortCheperFirstList(arr: Place[]): Place[] {
   items.sort((a, b) => {
     return a.priceForOneDay - b.priceForOneDay;
   });
-  console.log(items);
   return items;
 }
 
