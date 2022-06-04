@@ -1,9 +1,11 @@
 import { renderBlock } from "./lib.js";
 import { FavoritesItem, toggleFavoriteItem } from "./favoriteItem.js";
-import { getFavoritesAmount } from "./userData.js";
 import { getUserData } from "./search-form.js";
 import { book } from "./searchForm.js";
 import { renderToast } from "./lib.js";
+import { SortListСhoice } from "./search-sort-enum.js";
+import { sortResult } from "./sort-result.js";
+import { renderSortListBlock } from "./render-sort-list.js";
 
 export function renderSearchStubBlock() {
   renderBlock(
@@ -29,46 +31,6 @@ export function renderEmptyOrErrorSearchBlock(reasonMessage) {
   );
 }
 
-function renderPlacesListBlock(el) {
-  let items = [];
-  if (getFavoritesAmount() !== 0) {
-    items = JSON.parse(localStorage.getItem("favoritesAmount"));
-  }
-  const findedItem = items.find((item) => item.id === el.id);
-  const hasFavoriteItem = findedItem == undefined ? false : true;
-
-  return `<li class="result">
-    <div class="result-container">
-      <div class="result-img-container">
-        <div data-id ='${el.id}' class="favorites${
-    hasFavoriteItem ? " active" : ""
-  }"></div>
-        <img class="result-img" src="${el.photo}" alt="">
-      </div>	
-      <div class="result-info">
-        <div class="result-info--header">
-          <p>${el.title}</p>
-          <div>
-            <p class="price">Цена за ночь${el.priceForOneDay}&#8381;</p>
-            <p class="price">Полная стоимость${el.totalPrice}&#8381;</p>
-          </div>
-        </div>
-        <div class="result-info--map"><i class="map-icon"></i> ${
-          el.remoteness
-        }км от вас</div>
-        <div class="result-info--descr">${el.details}</div>
-        <div class="result-info--footer">
-          <div>
-            <button data-provider ='${el.provider}' data-id ='${
-    el.originalId
-  }'>Забронировать</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </li>`;
-}
-
 export function renderSearchResultsBlock(result) {
   renderBlock(
     "search-results-block",
@@ -77,16 +39,16 @@ export function renderSearchResultsBlock(result) {
         <p>Результаты поиска</p>
         <div class="search-results-filter">
             <span><i class="icon icon-filter"></i> Сортировать:</span>
-            <select>
-                <option selected="">Сначала дешёвые</option>
-                <option selected="">Сначала дорогие</option>
-                <option>Сначала ближе</option>
+            <select id="select-id">
+                <option value="${SortListСhoice.cheaper}" selected="">Сначала дешёвые</option>
+                <option value="${SortListСhoice.expensive}">Сначала дорогие</option>
+                <option value="${SortListСhoice.remote}">Сначала ближе</option>
             </select>
         </div>
     </div>
-    <ul class="results-list">
+    <div class="list-result-block">
 
-    </ul>
+    </div>
     `
   );
   let timer = true;
@@ -106,9 +68,15 @@ export function renderSearchResultsBlock(result) {
     );
     timer = false;
   }, dalay);
-  const liList = <HTMLElement>document.querySelector(".results-list");
-  result.forEach((el) => {
-    liList.insertAdjacentHTML("beforeend", renderPlacesListBlock(el));
+  const liList = <HTMLElement>document.querySelector(".list-result-block");
+  liList.appendChild(renderSortListBlock(result));
+
+  const selectSortList = <HTMLSelectElement>(
+    document.querySelector("#select-id")
+  );
+  selectSortList.addEventListener("change", () => {
+    liList.removeChild(liList.lastChild);
+    liList.appendChild(sortResult(result, selectSortList.value));
   });
 
   const resultsList = <HTMLElement>document.querySelector(".results-list");
