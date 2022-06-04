@@ -77,24 +77,28 @@ export function renderSearchResultsBlock(result) {
   selectSortList.addEventListener("change", () => {
     liList.removeChild(liList.lastChild);
     liList.appendChild(sortResult(result, selectSortList.value));
+    eventForPlace();
   });
 
-  const resultsList = <HTMLElement>document.querySelector(".results-list");
-  resultsList.addEventListener("click", (event) => {
-    const element = event.target as HTMLElement;
-    if (element.classList.contains("favorites")) {
-      const item = result.find((el) => el.id === element.dataset.id);
-      const favoriteItem: FavoritesItem = {
-        id: item.id,
-        name: item.name,
-        imgItem: item.image,
-      };
-      toggleFavoriteItem(favoriteItem, element);
-    } else if (element.tagName !== "BUTTON") return;
-    else {
-      if (timer) {
-        book(element.dataset.id, element.dataset.provider, getUserData());
+  const eventForPlace = () => {
+    const resultsList = <HTMLElement>document.querySelector(".results-list");
+    resultsList.addEventListener("click", (event) => {
+      const element = event.target as HTMLElement;
+      if (element.classList.contains("favorites")) {
+        const item = result.find((el) => el.id === element.dataset.id);
+        const favoriteItem: FavoritesItem = {
+          id: item.id,
+          name: item.name,
+          imgItem: item.image,
+        };
+        toggleFavoriteItem(favoriteItem, element);
+      } else if (element.tagName !== "BUTTON") return;
+      else {
+        if (timer) {
+          book(element.dataset.id, element.dataset.provider, getUserData());
+        }
       }
-    }
-  });
+    });
+  };
+  eventForPlace();
 }
