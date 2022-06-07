@@ -14,7 +14,7 @@ export class ApiProvider {
   }
 
   private static _responseToJson(
-    requestPromise: Promise<any>
+    requestPromise: Promise<Response>
   ): Promise<Place[]> {
     return requestPromise
       .then((response) => {

@@ -21,19 +21,6 @@ declare class FlatRentSdk {
   // eslint-disable-next-line @typescript-eslint/ban-types
   get(id: string): Promise<Object | null>;
 
-  search(parameters: Parameters): any;
-  book(flatId: string, checkInDate: Date, checkOutDate: Date): any;
-  _assertDatesAreCorrect(checkInDate: Date, checkOutDate: Date): void;
-  _resetTime(date: Date): void;
-  _calculateDifferenceInDays(startDate: Date, endDate: Date): number;
-  _generateDateRange(from: Date, to: Date): Date;
-  _generateTransactionId(): number;
-  _areAllDatesAvailable(flat: object, dateRange: any): any;
-  _formatFlatObject(flat: object, nightNumber: number): object;
-
-  _readDatabase(): Database;
-
-  _writeDatabase(database: Database): void;
-
-  _syncDatabase(database: Database): void;
+  search(parameters: Parameters): Promise<Database[]>;
+  book(flatId: string, checkInDate: Date, checkOutDate: Date): Promise<string>;
 }
