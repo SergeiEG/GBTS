@@ -7,7 +7,10 @@ export function renderUserBlock(
 ) {
   const favoritesCaption =
     favoriteItemsAmount == 0 ? "ничего нет" : favoriteItemsAmount;
-  const hasFavoriteItems = favoriteItemsAmount > 0 ? true : false;
+  const hasFavoriteItems =
+    typeof favoriteItemsAmount !== "undefined" && favoriteItemsAmount > 0
+      ? true
+      : false;
 
   renderBlock(
     "user-block",

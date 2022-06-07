@@ -1,4 +1,5 @@
 import { getFavoritesAmount } from "./userData.js";
+import { FavoritesItem } from "./favoriteItem.js";
 
 export class Place {
   constructor(
@@ -8,8 +9,8 @@ export class Place {
     public readonly photo: string,
     public readonly remoteness: number | "N/A",
     public readonly details: string,
-    public readonly priceForOneDay: number,
-    public readonly totalPrice: number
+    public readonly priceForOneDay: number | undefined,
+    public readonly totalPrice: number | undefined
   ) {}
 
   get id() {
@@ -19,10 +20,13 @@ export class Place {
   public renderPlacesListBlock() {
     let items = [];
     if (getFavoritesAmount() !== 0) {
-      items = JSON.parse(localStorage.getItem("favoritesAmount"));
+      const storage = localStorage.getItem("favoritesAmount");
+      if (typeof storage === "string") {
+        items = JSON.parse(storage);
+      }
     }
-    const findedItem = items.find((item) => item.id === this.id);
-    const hasFavoriteItem = findedItem == undefined ? false : true;
+    const findedItem = items.find((item: FavoritesItem) => item.id === this.id);
+    const hasFavoriteItem = findedItem === undefined ? false : true;
 
     return `
     <div class="result-container">

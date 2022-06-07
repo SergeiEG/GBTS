@@ -13,12 +13,12 @@ export interface SearchFormData {
 export async function searchResult(data: SearchFormData) {
   Promise.all([ApiProvider.find(data), SdkProvider.find(data)]).then(
     (results) => {
-      const allResults: Place[] = [].concat(results[0], results[1]);
+      const allResults: Place[] = [...results[0], ...results[1]];
       renderSearchResultsBlock(allResults);
     }
   );
 }
-export function book(placeId, provider, data: SearchFormData) {
+export function book(placeId: string, provider: string, data: SearchFormData) {
   const bookData: BookData = {
     id: placeId,
     arrivalDate: data.arrivalDate,

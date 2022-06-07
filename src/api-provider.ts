@@ -7,13 +7,15 @@ import { renderSearchStubBlock } from "./search-results.js";
 export class ApiProvider {
   public static provider = "api";
   private static apiUrl = "http://localhost:3030/places?";
-  private static differenceInDays = null;
+  private static differenceInDays = 0;
 
-  private static _dateToUnixStamp(date) {
+  private static _dateToUnixStamp(date: Date) {
     return date.getTime() / 1000;
   }
 
-  private static _responseToJson(requestPromise): Promise<Place[]> {
+  private static _responseToJson(
+    requestPromise: Promise<any>
+  ): Promise<Place[]> {
     return requestPromise
       .then((response) => {
         return response.text();
@@ -67,7 +69,7 @@ export class ApiProvider {
       });
   }
 
-  private static convertPlaceListResponse(response): Place[] {
+  private static convertPlaceListResponse(response: PlaceApi[]): Place[] {
     return response.map((item) => {
       return this.convertPlaceResponse(item);
     });
@@ -86,13 +88,16 @@ export class ApiProvider {
     );
   }
 
-  private static _calculateDifferenceInDays(startDate, endDate) {
+  private static _calculateDifferenceInDays(
+    startDate: Date,
+    endDate: Date
+  ): number {
     const difference = endDate.getTime() - startDate.getTime();
 
     return Math.floor(difference / (1000 * 60 * 60 * 24));
   }
 
-  private static _calcTotalPrice(price, differenceInDays) {
+  private static _calcTotalPrice(price: number, differenceInDays: number) {
     if (differenceInDays != null) {
       return differenceInDays * price;
     }

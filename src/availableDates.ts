@@ -5,7 +5,7 @@ const TWO_MONTH = 2;
 
 export const begin = new Date();
 
-const getDateParse = (date) => {
+const getDateParse = (date: Date) => {
   const year = date.getFullYear();
   const month = (date.getMonth() + ONE_MONTH).toString().padStart(2, "0");
   const day = date.getDate();
@@ -13,7 +13,7 @@ const getDateParse = (date) => {
   return `${year}-${month}-${day}`;
 };
 
-const getMaxDate = (date) => {
+const getMaxDate = (date: Date) => {
   const year = date.getFullYear();
   const month = date.getMonth();
   const max = new Date(year, month + TWO_MONTH, 0);
@@ -21,7 +21,7 @@ const getMaxDate = (date) => {
   return getDateParse(max);
 };
 
-const getMinDate = (date, plusDay) => {
+const getMinDate = (date: Date, plusDay: number) => {
   const year = date.getFullYear();
   const month = (date.getMonth() + ONE_MONTH).toString().padStart(2, "0");
   const day = (date.getDate() + plusDay).toString().padStart(2, "0");

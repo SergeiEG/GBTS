@@ -6,6 +6,7 @@ import { renderToast } from "./lib.js";
 import { SortListСhoice } from "./search-sort-enum.js";
 import { sortResult } from "./sort-result.js";
 import { renderSortListBlock } from "./render-sort-list.js";
+import { Place } from "./place.js";
 
 export function renderSearchStubBlock() {
   renderBlock(
@@ -19,7 +20,7 @@ export function renderSearchStubBlock() {
   );
 }
 
-export function renderEmptyOrErrorSearchBlock(reasonMessage) {
+export function renderEmptyOrErrorSearchBlock(reasonMessage: string) {
   renderBlock(
     "search-results-block",
     `
@@ -31,7 +32,7 @@ export function renderEmptyOrErrorSearchBlock(reasonMessage) {
   );
 }
 
-export function renderSearchResultsBlock(result) {
+export function renderSearchResultsBlock(result: Place[]) {
   renderBlock(
     "search-results-block",
     `
@@ -75,8 +76,13 @@ export function renderSearchResultsBlock(result) {
     document.querySelector("#select-id")
   );
   selectSortList.addEventListener("change", () => {
-    liList.removeChild(liList.lastChild);
-    liList.appendChild(sortResult(result, selectSortList.value));
+    if (liList.lastChild) {
+      liList.removeChild(liList.lastChild);
+    }
+    const elList = sortResult(result, selectSortList.value);
+    if (typeof elList !== "undefined") {
+      liList.appendChild(elList);
+    }
     eventForPlace();
   });
 
@@ -85,17 +91,25 @@ export function renderSearchResultsBlock(result) {
     resultsList.addEventListener("click", (event) => {
       const element = event.target as HTMLElement;
       if (element.classList.contains("favorites")) {
-        const item = result.find((el) => el.id === element.dataset.id);
-        const favoriteItem: FavoritesItem = {
-          id: item.id,
-          name: item.name,
-          imgItem: item.image,
-        };
-        toggleFavoriteItem(favoriteItem, element);
+        const item = result.find((el) => el.id === element.dataset["id"]);
+        if (item instanceof Place) {
+          const favoriteItem: FavoritesItem = {
+            id: item.id,
+            name: item.title,
+            imgItem: item.photo,
+          };
+          toggleFavoriteItem(favoriteItem, element);
+        }
       } else if (element.tagName !== "BUTTON") return;
       else {
         if (timer) {
-          book(element.dataset.id, element.dataset.provider, getUserData());
+          const datasetId = element.dataset["id"];
+          const provider = element.dataset["provider"];
+          if (
+            typeof datasetId !== "undefined" &&
+            typeof provider !== "undefined"
+          )
+            book(datasetId, provider, getUserData());
         }
       }
     });
