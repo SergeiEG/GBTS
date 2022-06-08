@@ -4,7 +4,7 @@ import { PlaceApi, BookData } from "./responseAPI.js";
 import { renderToast } from "./lib.js";
 import { renderSearchStubBlock } from "./search-results.js";
 
-export class ApiProvider {
+export abstract class ApiProvider {
   public static provider = "api";
   private static apiUrl = "http://localhost:3030/places?";
   private static differenceInDays = 0;

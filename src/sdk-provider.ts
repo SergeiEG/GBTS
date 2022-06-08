@@ -5,7 +5,7 @@ import { BookData } from "./responseAPI.js";
 import { renderToast } from "./lib.js";
 import { renderSearchStubBlock } from "./search-results.js";
 
-export class SdkProvider {
+export abstract class SdkProvider {
   public static provider = "sdk";
   private static sdk = new FlatRentSdk();
   private static differenceInDays = 0;
