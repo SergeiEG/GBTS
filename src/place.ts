@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { getFavoritesAmount } from "./userData.js";
 import { FavoritesItem } from "./favoriteItem.js";
 

@@ -11,7 +11,7 @@
     ],
     "rules": {
          "quotes":["error", "double"],
-         "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": true }]
+         "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings":  false}]
 
     }
 }
