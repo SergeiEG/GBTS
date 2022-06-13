@@ -10,7 +10,8 @@
     "plugin:@typescript-eslint/recommended"
     ],
     "rules": {
-         "quotes":["error", "double"]
+         "quotes":["error", "double"],
+         "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": true }]
 
     }
 }
